@@ -31,8 +31,9 @@ public class LessonService {
     }
     public void deleteLessonByLessonId(String lessonId) {
         logger.info("Deleting Lesson : " + lessonId);
-        lessonRepository.deleteByLessonId(lessonId);
+        lessonRepository.deleteById(lessonId);
     }
+
 
     public void updateLessonByLessonId(String lessonId,String newLessonName) {
         logger.info("Updating Lesson : " + lessonId);

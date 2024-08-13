@@ -24,4 +24,19 @@ public class UniversityService {
     }
 
 
+    public StudentRepository getStudentRepository() {
+        return studentRepository;
+    }
+
+    public LessonRepository getLessonRepository() {
+        return lessonRepository;
+    }
+
+    public NotesRepository getNotesRepository() {
+        return notesRepository;
+    }
+
+    public TeacherRepository getTeacherRepository() {
+        return teacherRepository;
+    }
 }

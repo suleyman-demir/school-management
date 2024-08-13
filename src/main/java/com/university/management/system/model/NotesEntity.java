@@ -1,11 +1,15 @@
 package com.university.management.system.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "notes")
 @Entity
 public class NotesEntity {
     @Id
@@ -16,55 +20,17 @@ public class NotesEntity {
     private String lessonName;
     private Integer note;
     @ManyToOne
-    private LessonEntity lessons; //////////////////BURAYA LİSTLER EKLENECEK
+    @JoinColumn(name="student_id")
+    private StudentEntity student;
+    @ManyToOne
+    @JoinColumn(name="lesson_id")
+    private LessonEntity lessons;
 
-    public NotesEntity(String id, String studentName, String lessonName, LessonEntity lessons) {
+    public NotesEntity(String id, String studentName, String lessonName, StudentEntity student, LessonEntity lessons) {
         this.id = id;
         this.studentName = studentName;
         this.lessonName = lessonName;
+        this.student = student;
         this.lessons = lessons;
-    }
-
-    public NotesEntity() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getLessonName() {
-        return lessonName;
-    }
-
-    public void setLessonName(String lessonName) {
-        this.lessonName = lessonName;
-    }
-
-    public LessonEntity getLessons() {
-        return lessons;
-    }
-
-    public void setLessons(LessonEntity lessons) {
-        this.lessons = lessons;
-    }
-
-    public Integer getNote() {
-        return note;
-    }
-
-    public void setNote(Integer note) {
-        this.note = note;
     }
 }

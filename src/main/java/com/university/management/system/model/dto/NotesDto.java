@@ -29,6 +29,7 @@ public record NotesDto(
                 from.id,
                 from.studentName,
                 from.lessonName,
+                null,
                 null
         );
     }

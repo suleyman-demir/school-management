@@ -10,16 +10,16 @@ public class StudentEntity {
     @Id
     @UuidGenerator
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private String studentId;
     private String studentName;
     private String studentNumber;
-    @OneToMany
+    @OneToMany(mappedBy = "student")
     private List<NotesEntity> studentLessonNote;
-    @OneToMany
+    @OneToMany(mappedBy = "student")
     private List<LessonEntity> studentLessonNames;
 
-    public StudentEntity(String id, String studentName, String studentNumber, List<NotesEntity> studentLessonNote, List<LessonEntity> studentLessonNames) {
-        this.id = id;
+    public StudentEntity(String studentId, String studentName, String studentNumber, List<NotesEntity> studentLessonNote, List<LessonEntity> studentLessonNames) {
+        this.studentId = studentId;
         this.studentName = studentName;
         this.studentNumber = studentNumber;
         this.studentLessonNote = studentLessonNote;
@@ -31,11 +31,11 @@ public class StudentEntity {
     }
 
     public String getId() {
-        return id;
+        return studentId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.studentId = studentId;
     }
 
     public String getStudentName() {

@@ -1,40 +1,29 @@
 package com.university.management.system.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class TeacherEntity {
     @Id
     @UuidGenerator
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private String teacherId;
     private String teacherName;
-    private String teacherLessonsName;
-
-    public TeacherEntity(String id, String teacherName, String teacherLessonsName) {
-        this.id = id;
-        this.teacherName = teacherName;
-        this.teacherLessonsName = teacherLessonsName;
-    }
-
-    public TeacherEntity(String teacherName, String teacherLessonsName) {
-        this.id = "";
-        this.teacherName = teacherName;
-        this.teacherLessonsName = teacherLessonsName;
-    }
-
-    public TeacherEntity() {
-
-    }
+    @OneToMany(mappedBy = "teacher")
+    private List<LessonEntity> teacherLessonsName;
 
 
     public String getId() {
-        return id;
+        return teacherId;
     }
 
     public String getTeacherName() {
@@ -42,6 +31,6 @@ public class TeacherEntity {
     }
 
     public String getTeacherLessonsName() {
-        return teacherLessonsName;
+        return teacherLessonsName.toString();
     }
 }

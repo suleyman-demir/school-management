@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -31,7 +33,7 @@ public class StudentService {
         return studentEntityOptional.map(StudentDto::convert).orElse(null);
 
     }
-    public void updateStudentByStudentId(String studentId){
+    public void updateStudentByStudentId(String studentId, StudentDto studentDto){
         logger.info("Updating Student : " + studentId);
         Optional<StudentEntity> studentEntityOptional = studentRepository.findById(studentId);
         studentEntityOptional.ifPresent(student -> {
@@ -50,11 +52,13 @@ public class StudentService {
         studentRepository.deleteByStudentId(studentId);
     }
 
-    public StudentDto getAllStudentOfLessonByLessonId(String lessonId){
-        logger.info("Requested Students of Lesson : " + lessonId);
-        Optional<StudentEntity> studentEntityOptional = studentRepository.findByStudentLessonNames(lessonId);
-        return studentEntityOptional.map(StudentDto::convert).orElse(null);
+    public List<StudentDto> getAllStudents() {
+        logger.info("Fetching all students");
+        return studentRepository.findAll().stream()
+                .map(StudentDto::convert)
+                .collect(Collectors.toList());
     }
+
 
 
 
