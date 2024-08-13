@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface TeacherRepository extends JpaRepository<TeacherEntity,String> {
 
     Optional<TeacherEntity>findByTeacherName(String teacherName);
-    Optional<TeacherEntity>findByTeacherLessonsName(String teacherLessonsName);
+    Optional<TeacherEntity>deleteByTeacherId(String teacherId);
 
 }

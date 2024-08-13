@@ -7,5 +7,8 @@ import java.util.Optional;
 
 public interface NotesRepository extends JpaRepository<NotesEntity,String> {
 
-    Optional<NotesEntity> findByStudentNameAndLessonName( String studentName, String lessonName);
+    Optional<NotesEntity> findByStudentIdAndLessonId( String studentId, String lessonId);
+    Optional<NotesEntity> findByLessonId( String lessonId);
+    Optional<NotesEntity> deleteByStudentIdAndLessonId( String studentId, String lessonId);
+    Optional<NotesEntity> deleteByLessonId( String lessonId);
 }

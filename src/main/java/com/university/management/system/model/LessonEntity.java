@@ -1,10 +1,10 @@
 package com.university.management.system.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class LessonEntity {
@@ -14,20 +14,23 @@ public class LessonEntity {
     private String id;
     private String lessonName;
     private String teacherName;
-    private String lessonNotes;////////////////////
 
-    public LessonEntity(String id, String lessonName, String teacherName, String lessonNotes) {
+    @OneToMany
+    private List<NotesEntity> lessonNotes = new ArrayList<>();////////////////////
+
+    public LessonEntity(String id, String lessonName, String teacherName, List<NotesEntity> lessonNotes) {
         this.id = id;
         this.lessonName = lessonName;
         this.teacherName = teacherName;
         this.lessonNotes = lessonNotes;
     }
-    public LessonEntity(String lessonName, String teacherName, String lessonNotes) {
-        this.id = "";
+
+    public LessonEntity(String lessonName, String teacherName, List<NotesEntity> lessonNotes) {
         this.lessonName = lessonName;
         this.teacherName = teacherName;
         this.lessonNotes = lessonNotes;
     }
+
 
     public LessonEntity() {
         //////////////////////////////////
@@ -45,7 +48,23 @@ public class LessonEntity {
         return teacherName;
     }
 
-    public String getLessonNotes() {
+    public List<NotesEntity> getLessonNotes() {
         return lessonNotes;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public void setLessonNotes(List<NotesEntity> lessonNotes) {
+        this.lessonNotes = lessonNotes;
     }
 }
