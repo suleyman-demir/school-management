@@ -21,35 +21,41 @@ public class StudentService {
     }
 
     public void addStudent(StudentDto studentDto) {
-        logger.info("Adding Student : " + studentDto.name());
-        studentRepository.save(StudentDto.convert(studentDto));
-
-
+        logger.info("Adding student: {}", studentDto.name());
+        StudentEntity studentEntity = StudentDto.convert(studentDto);
+        studentRepository.save(studentEntity);
+        logger.info("Student added successfully: {}", studentEntity.getId());
+    }
+    public void addStudents(List<StudentDto> studentDtos) {
+        logger.info("Adding {} students", studentDtos.size());
+        List<StudentEntity> studentEntities = studentDtos.stream()
+                .map(StudentDto::convert)
+                .collect(Collectors.toList());
+        studentRepository.saveAll(studentEntities);
+        logger.info("All students added successfully");
     }
 
     public StudentDto getStudentByStudentId(String studentId) {
-        logger.info("Requested Student : " + studentId);
-        Optional<StudentEntity> studentEntityOptional = studentRepository.findByStudentName(studentId);
+        logger.info("Fetching student with ID: {}", studentId);
+        Optional<StudentEntity> studentEntityOptional = studentRepository.findByStudentId(studentId);
         return studentEntityOptional.map(StudentDto::convert).orElse(null);
-
     }
-    public void updateStudentByStudentId(String studentId, StudentDto studentDto){
-        logger.info("Updating Student : " + studentId);
+
+    public void updateStudentByStudentId(String studentId, StudentDto studentDto) {
+        logger.info("Updating student with ID: {}", studentId);
         Optional<StudentEntity> studentEntityOptional = studentRepository.findById(studentId);
         studentEntityOptional.ifPresent(student -> {
-            StudentDto updatedStudentDto = new StudentDto(
-                    student.getId(),
-                    student.getStudentName(),
-                    student.getStudentNumber(),
-                    null,
-                    null
-            );
-            studentRepository.save(StudentDto.convert(updatedStudentDto));
+            student.setStudentName(studentDto.name());
+            student.setStudentNumber(studentDto.number());
+            studentRepository.save(student);
+            logger.info("Student updated successfully: {}", student.getId());
         });
     }
-    public void deleteStudentByStudentId(String studentId){
-        logger.info("Deleting Student : " + studentId);
+
+    public void deleteStudentByStudentId(String studentId) {
+        logger.info("Deleting student with ID: {}", studentId);
         studentRepository.deleteByStudentId(studentId);
+        logger.info("Student deleted successfully: {}", studentId);
     }
 
     public List<StudentDto> getAllStudents() {
@@ -58,9 +64,4 @@ public class StudentService {
                 .map(StudentDto::convert)
                 .collect(Collectors.toList());
     }
-
-
-
-
 }
-

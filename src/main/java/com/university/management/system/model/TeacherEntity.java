@@ -15,7 +15,7 @@ import java.util.List;
 public class TeacherEntity {
     @Id
     @UuidGenerator
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =GenerationType.TABLE)
     private String teacherId;
     private String teacherName;
     @OneToMany(mappedBy = "teacher")

@@ -1,6 +1,5 @@
 package com.university.management.system.controller;
 
-import com.university.management.system.model.LessonEntity;
 import com.university.management.system.model.dto.LessonDto;
 import com.university.management.system.service.LessonService;
 import org.slf4j.Logger;
@@ -12,45 +11,40 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/api/university/lessons")
-
 public class LessonController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LessonController.class);
     private final LessonService lessonService;
-
 
     public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
 
-   @PostMapping
-    public ResponseEntity<Void>addLesson(@RequestBody LessonDto lessonDto){
+    @PostMapping
+    public ResponseEntity<Void> addLesson(@RequestBody LessonDto lessonDto) {
+        logger.info("Received request to add lesson: {}", lessonDto.lessonName());
         lessonService.addLesson(lessonDto);
-        return ResponseEntity.ok().build();
-
-   }
-
-   @GetMapping("/{lessonId}")
-    public ResponseEntity<LessonDto>getLessonByLessonId(@PathVariable String lessonId){
-        LessonDto lessonDto=lessonService.getLessonByLessonId(lessonId);
-        return lessonDto !=null ? ResponseEntity.ok(lessonDto): ResponseEntity.notFound().build();
-   }
-
-   @DeleteMapping("/{lessonId}")
-    public ResponseEntity<Void> deleteLessonByLessonId(@PathVariable String lessonId){
-        lessonService.deleteLessonByLessonId(lessonId);
-        return ResponseEntity.ok().build();
-   }
-
-    @PutMapping("/{lessonId}")
-    public ResponseEntity<Void> updateLessonByLessonId(@PathVariable String lessonId,@RequestBody String newLessonName){
-        lessonService.updateLessonByLessonId(lessonId, newLessonName);
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{lessonId}")
+    public ResponseEntity<LessonDto> getLessonByLessonId(@PathVariable String lessonId) {
+        logger.info("Received request to get lesson with ID: {}", lessonId);
+        Optional<LessonDto> lessonDtoOptional = Optional.ofNullable(lessonService.getLessonByLessonId(lessonId));
+        return lessonDtoOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
+    @DeleteMapping("/{lessonId}")
+    public ResponseEntity<Void> deleteLessonByLessonId(@PathVariable String lessonId) {
+        logger.info("Received request to delete lesson with ID: {}", lessonId);
+        lessonService.deleteLessonByLessonId(lessonId);
+        return ResponseEntity.ok().build();
+    }
 
-
-
-
+    @PutMapping("/{lessonId}")
+    public ResponseEntity<Void> updateLessonByLessonId(@PathVariable String lessonId, @RequestBody String newLessonName) {
+        logger.info("Received request to update lesson with ID: {} to new name: {}", lessonId, newLessonName);
+        lessonService.updateLessonByLessonId(lessonId, newLessonName);
+        return ResponseEntity.ok().build();
+    }
 }
-

@@ -9,7 +9,7 @@ import java.util.List;
 public class StudentEntity {
     @Id
     @UuidGenerator
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String studentId;
     private String studentName;
     private String studentNumber;
@@ -34,7 +34,7 @@ public class StudentEntity {
         return studentId;
     }
 
-    public void setId(String id) {
+    public void setId(String studentId) {
         this.studentId = studentId;
     }
 

@@ -51,5 +51,51 @@ public class LessonEntity {
 
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLessonName() {
+        return lessonName;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public TeacherEntity getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(TeacherEntity teacher) {
+        this.teacher = teacher;
+    }
+
+    public List<StudentEntity> getStudent() {
+        return student;
+    }
+
+    public void setStudent(List<StudentEntity> student) {
+        this.student = student;
+    }
+
+    public List<NotesEntity> getLessonNotes() {
+        return lessonNotes;
+    }
+
+    public void setLessonNotes(List<NotesEntity> lessonNotes) {
+        this.lessonNotes = lessonNotes;
+    }
 }

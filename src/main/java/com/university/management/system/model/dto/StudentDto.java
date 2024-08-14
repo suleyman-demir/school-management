@@ -1,14 +1,13 @@
 package com.university.management.system.model.dto;
 
 import com.university.management.system.model.LessonEntity;
-import com.university.management.system.model.NotesEntity;
 import com.university.management.system.model.StudentEntity;
 
 import java.util.List;
 
 public record StudentDto(
 
-        String id,
+        String studentId,
         String name,
         String number,
         List<NotesDto> notes,
@@ -31,7 +30,7 @@ public record StudentDto(
     }
     public static StudentEntity convert(StudentDto from){
         return new StudentEntity(
-                from.id,
+                from.studentId,
                 from.name,
                 from.number,
                 null,
