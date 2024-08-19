@@ -1,5 +1,6 @@
 package com.university.management.system.controller;
 
+import com.university.management.system.model.dto.StudentDto;
 import com.university.management.system.model.dto.TeacherDto;
 import com.university.management.system.service.TeacherService;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,4 +49,12 @@ public class TeacherController {
         teacherService.deleteTeacherByTeacherId(teacherId);
         return ResponseEntity.ok().build();
     }
+    @GetMapping
+    public ResponseEntity<List<TeacherDto>> getAllTeachers() {
+        logger.info("Received request to get all teachers");
+        List<TeacherDto> teachers = teacherService.getAllTeachers();
+        return ResponseEntity.ok(teachers);
+    }
+
+
 }

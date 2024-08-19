@@ -48,7 +48,10 @@ public class LessonEntity {
     }
 
     public LessonEntity(String id, String lessonName, String teacherName, Object o) {
-
+    this.id = id;
+    this.lessonName = lessonName;
+    this.teacherName = teacherName;
+    this.teacher = (TeacherEntity) o;
     }
 
     public String getId() {

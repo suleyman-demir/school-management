@@ -7,12 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherService {
     private final TeacherRepository teacherRepository;
-    private static final Logger logger = LoggerFactory.getLogger(TeacherService.class);
+    private static final  Logger logger = LoggerFactory.getLogger(TeacherService.class);
 
     public TeacherService(TeacherRepository teacherRepository) {
         this.teacherRepository = teacherRepository;
@@ -45,5 +47,12 @@ public class TeacherService {
         logger.info("Deleting teacher with ID: {}", teacherId);
         teacherRepository.deleteByTeacherId(teacherId);
         logger.info("Teacher deleted successfully: {}", teacherId);
+    }
+
+    public List<TeacherDto> getAllTeachers() {
+        logger.info("Fetching all teachers");
+        return teacherRepository.findAll().stream()
+                .map(TeacherDto::convert)
+                .collect(Collectors.toList());
     }
 }

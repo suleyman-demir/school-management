@@ -47,4 +47,11 @@ public class LessonController {
         lessonService.updateLessonByLessonId(lessonId, newLessonName);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/join/student")
+    public ResponseEntity<Void> joinStudentToLesson(@RequestParam String studentId, @RequestParam String lessonId) {
+        logger.info("Received request to join student with ID: {} to lesson with ID: {}", studentId, lessonId);
+        lessonService.joinStudentToLesson(studentId,lessonId);
+        return ResponseEntity.ok().build();
+    }
 }

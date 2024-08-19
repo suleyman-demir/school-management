@@ -13,7 +13,7 @@ public class StudentEntity {
     private String studentId;
     private String studentName;
     private String studentNumber;
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student",fetch = FetchType.LAZY, orphanRemoval = true)
     private List<NotesEntity> studentLessonNote;
     @OneToMany(mappedBy = "student")
     private List<LessonEntity> studentLessonNames;
@@ -27,7 +27,6 @@ public class StudentEntity {
     }
 
     public StudentEntity() {
-
     }
 
     public String getId() {

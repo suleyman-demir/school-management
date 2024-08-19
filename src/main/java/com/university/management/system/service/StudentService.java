@@ -41,6 +41,12 @@ public class StudentService {
         return studentEntityOptional.map(StudentDto::convert).orElse(null);
     }
 
+    public Optional<StudentEntity> getStudentEntityById(String studentId) {
+        logger.info("Fetching student with ID: {}", studentId);
+        return studentRepository.findByStudentId(studentId);
+    }
+
+
     public void updateStudentByStudentId(String studentId, StudentDto studentDto) {
         logger.info("Updating student with ID: {}", studentId);
         Optional<StudentEntity> studentEntityOptional = studentRepository.findById(studentId);

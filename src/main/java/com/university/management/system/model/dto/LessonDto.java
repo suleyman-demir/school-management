@@ -24,11 +24,11 @@ public record LessonDto(
 
     }
 
-    public static LessonEntity convert(LessonDto from) {
+    public LessonEntity toEntity() {
         return new LessonEntity(
-                from.id,
-                from.lessonName,
-                from.teacherName,
+                id(),
+                lessonName(),
+                teacherName(),
                 null
         );
     }
