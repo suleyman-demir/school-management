@@ -7,7 +7,6 @@ import java.util.List;
 public record LessonDto(
         String id,
         String lessonName,
-        String teacherName,
         List<String>studentIds
 
 
@@ -18,7 +17,6 @@ public record LessonDto(
         return new LessonDto(
                 from.getId(),
                 from.getLessonName(),
-                from.getTeacherName(),
                 null
         );
 
@@ -28,7 +26,6 @@ public record LessonDto(
         return new LessonEntity(
                 id(),
                 lessonName(),
-                teacherName(),
                 null
         );
     }

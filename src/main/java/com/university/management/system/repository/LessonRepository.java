@@ -7,7 +7,6 @@ import java.util.Optional;
 
 
 public interface LessonRepository extends JpaRepository<LessonEntity,String> {
-    Optional<LessonEntity>findByTeacherName(String teacherName);
     void deleteById(String lessonId);
 
 

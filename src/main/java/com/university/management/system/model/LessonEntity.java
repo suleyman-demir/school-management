@@ -20,7 +20,7 @@ public class LessonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String lessonName;
-    private String teacherName;
+
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private TeacherEntity teacher;
@@ -38,19 +38,19 @@ public class LessonEntity {
     private List<NotesEntity> lessonNotes = new ArrayList<>();
 
 
-    public LessonEntity(String id, String lessonName, String teacherName, TeacherEntity teacher, List<StudentEntity> student, List<NotesEntity> lessonNotes) {
+    public LessonEntity(String id, String lessonName, TeacherEntity teacher, List<StudentEntity> student, List<NotesEntity> lessonNotes) {
         this.id = id;
         this.lessonName = lessonName;
-        this.teacherName = teacherName;
+
         this.teacher = teacher;
         this.student = student;
         this.lessonNotes = lessonNotes;
     }
 
-    public LessonEntity(String id, String lessonName, String teacherName, Object o) {
+    public LessonEntity(String id, String lessonName, Object o) {
     this.id = id;
     this.lessonName = lessonName;
-    this.teacherName = teacherName;
+
     this.teacher = (TeacherEntity) o;
     }
 
@@ -68,14 +68,6 @@ public class LessonEntity {
 
     public void setLessonName(String lessonName) {
         this.lessonName = lessonName;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
     }
 
     public TeacherEntity getTeacher() {
