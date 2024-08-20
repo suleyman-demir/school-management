@@ -1,5 +1,6 @@
 package com.university.management.system.service;
 
+import com.university.management.system.exception.ResourceNotFoundException;
 import com.university.management.system.model.LessonEntity;
 import com.university.management.system.model.NotesEntity;
 import com.university.management.system.model.StudentEntity;
@@ -28,13 +29,13 @@ public class NoteService {
     }
 
     public void addNoteByStudentId(String studentId, String lessonId, Integer noteValue) {
-        logger.info("Adding note for Student ID: {} and Lesson ID: {}", studentId, lessonId);
+        logger.info("Öğrenci ID'si {} ve Ders ID'si {} için not ekleniyor.", studentId, lessonId);
 
         StudentEntity student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found with ID: " + studentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'ye sahip öğrenci bulunamadı: " + studentId));
 
         LessonEntity lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new RuntimeException("Lesson not found with ID: " + lessonId));
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'ye sahip ders bulunamadı: " + lessonId));
 
         NotesEntity notesEntity = new NotesEntity();
         notesEntity.setStudent(student);
@@ -44,42 +45,45 @@ public class NoteService {
         notesEntity.setNote(noteValue);
 
         notesRepository.save(notesEntity);
-        logger.info("Note added successfully for Student ID: {} and Lesson ID: {}", studentId, lessonId);
+        logger.info("Öğrenci ID'si {} ve Ders ID'si {} için not başarıyla eklendi.", studentId, lessonId);
     }
 
     public NotesDto getNoteByLessonIdAndStudentId(String lessonId, String studentId) {
-        logger.info("Fetching note for Lesson ID: {} and Student ID: {}", lessonId, studentId);
+        logger.info("Ders ID'si {} ve Öğrenci ID'si {} için not getiriliyor.", lessonId, studentId);
         return notesRepository.findByStudentIdAndId(studentId, lessonId)
                 .map(NotesDto::convert)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'lerle eşleşen not bulunamadı."));
     }
 
     public NotesDto getAllNotesByLessonID(String lessonId) {
-        logger.info("Fetching all notes for Lesson ID: {}", lessonId);
+        logger.info("Ders ID'si {} için tüm notlar getiriliyor.", lessonId);
         return notesRepository.findById(lessonId)
                 .map(NotesDto::convert)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'ye sahip ders için not bulunamadı: " + lessonId));
     }
 
     public void deleteNoteByLessonIdAndStudentId(String lessonId, String studentId) {
-        logger.info("Deleting note for Lesson ID: {} and Student ID: {}", lessonId, studentId);
-        notesRepository.deleteByStudentIdAndId(studentId, lessonId);
-        logger.info("Note deleted successfully for Lesson ID: {} and Student ID: {}", lessonId, studentId);
+        logger.info("Ders ID'si {} ve Öğrenci ID'si {} için not siliniyor.", lessonId, studentId);
+        NotesEntity note = notesRepository.findByStudentIdAndId(studentId, lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'lerle eşleşen not bulunamadı."));
+        notesRepository.delete(note);
+        logger.info("Ders ID'si {} ve Öğrenci ID'si {} için not başarıyla silindi.", lessonId, studentId);
     }
 
     public void deleteAllNotesByLessonId(String lessonId) {
-        logger.info("Deleting all notes for Lesson ID: {}", lessonId);
+        logger.info("Ders ID'si {} için tüm notlar siliniyor.", lessonId);
+        LessonEntity lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'ye sahip ders bulunamadı: " + lessonId));
         notesRepository.deleteById(lessonId);
-        logger.info("All notes deleted successfully for Lesson ID: {}", lessonId);
+        logger.info("Ders ID'si {} için tüm notlar başarıyla silindi.", lessonId);
     }
 
     public void updateNoteByLessonIdAndStudentId(String lessonId, String studentId, Integer newNote) {
-        logger.info("Updating note for Lesson ID: {} and Student ID: {}", lessonId, studentId);
-        notesRepository.findByStudentIdAndId(studentId, lessonId)
-                .ifPresent(note -> {
-                    note.setNote(newNote);
-                    notesRepository.save(note);
-                    logger.info("Note updated successfully for Lesson ID: {} and Student ID: {}", lessonId, studentId);
-                });
+        logger.info("Ders ID'si {} ve Öğrenci ID'si {} için not güncelleniyor.", lessonId, studentId);
+        NotesEntity note = notesRepository.findByStudentIdAndId(studentId, lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bu ID'lerle eşleşen not bulunamadı."));
+        note.setNote(newNote);
+        notesRepository.save(note);
+        logger.info("Ders ID'si {} ve Öğrenci ID'si {} için not başarıyla güncellendi.", lessonId, studentId);
     }
 }

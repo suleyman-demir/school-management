@@ -17,8 +17,10 @@ public class LessonController {
     private static final Logger logger = LoggerFactory.getLogger(LessonController.class);
     private final LessonService lessonService;
 
+
     public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
+
     }
 
     @PostMapping
@@ -84,11 +86,9 @@ public class LessonController {
     }
 
     @GetMapping("/get/all/details/of/lesson")
-        public ResponseEntity<LessonDto> getAllDetailsOfLesson(@RequestParam String lessonId){
-        lessonService.getAllDetailsOfLesson(lessonId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<LessonDto> getAllDetailsOfLesson(@RequestParam String lessonId) {
 
-
+        return ResponseEntity.ok(lessonService.getAllDetailsOfLesson(lessonId));
     }
 
 
